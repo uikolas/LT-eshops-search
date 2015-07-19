@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container-full">
+
+        <div class="row">
+
+            <div class="col-lg-12 text-center v-center">
+
+                <h1>LT Eshops search</h1>
+
+                <br><br><br>
+
+                <form class="col-lg-12">
+                    <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
+                        <input id="keyword" class="form-control input-lg" title="Paieška" placeholder="Įveskite raktažodį" type="text" required="required">
+                        <span class="input-group-btn"><button id="search" class="btn btn-lg btn-primary" type="button">Ieškoti</button></span>
+                    </div>
+                </form>
+
+                <br />
+                <div id="loading">
+                    Ieškoma <img src="{{ asset('images/ajax-loader.gif') }}" alt="Loading" />
+                </div>
+            </div>
+
+        </div> <!-- /row -->
+
+
+    </div> <!-- /container full -->
+
+    <div class="container">
+
+        <hr>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Prekės</div>
+                    <div class="panel-body">
+                        <table id="table" class="table table-striped tablesorter tablesorter-default">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;">Nuotrauka</th>
+                                    <th style="width: 60%;">Pavadinimas</th>
+                                    <th style="width: 10%;">Kaina</th>
+                                    <th style="width: 10%;">Parduotuve</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            $("#table").tablesorter();
+            $('#loading').hide();
+            $('#search').click(function(e){
+                searcher(e);
+            });
+        });
+
+        $(document).keypress(function(e) {
+            if(e.which == 13) {
+                searcher(e);
+            }
+        });
+
+        function searcher(e) {
+            e.preventDefault();
+            $('#table tbody tr').remove();
+            $('#loading').show();
+            var value = $('#keyword').val();
+            $.getJSON('{{ url('app_search') }}', { keyword : value}, function(response){
+                console.log(response);
+                $('#loading').hide();
+                $('html, body').animate({
+                    scrollTop: $('.container').offset().top
+                }, 1500);
+                $.each(response, function(i, array){
+                    $.each(array, function(i, field){
+                        var row = '<tr>' +
+                                '<td align="center"><img src="' + field.image + '" class="width" /></td>' +
+                                '<td><a href="' + field.link + '" target="_blank">' + field.name + '</a></td>' +
+                                '<td>' + field.price + '</td>' +
+                                '<td>' + field.shop + '</td>' +
+                                '</tr>';
+                        $row = $(row);
+                        $('#table tbody').append($row).trigger('addRows', [$row, false]);
+                    });
+                });
+            });
+        }
+    </script>
+{% endblock %}

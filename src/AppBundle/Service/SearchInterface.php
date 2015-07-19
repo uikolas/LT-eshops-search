@@ -1,0 +1,12 @@
+<?php
+
+namespace AppBundle\Service;
+
+interface SearchInterface
+{
+    /**
+     * @param string $keyword
+     * @return mixed
+     */
+    public function search($keyword);
+}
