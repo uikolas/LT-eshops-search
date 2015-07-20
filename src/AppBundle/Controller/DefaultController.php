@@ -28,6 +28,7 @@ class DefaultController extends Controller
 
         $searchManager->setSearchEngine($this->get('app.service.search_engine.kilobaitas.search'));
         $searchManager->setSearchEngine($this->get('app.service.search_engine.skytech.search'));
+        $searchManager->setSearchEngine($this->get('app.service.search_engine.one_a.search'));
 
         $data = $searchManager->search($keyword);
 

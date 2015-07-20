@@ -26,3 +26,10 @@ services:
     app.service.search_engine.skytech.search:
         class: AppBundle\Service\SearchEngine\SkytechSearch\SkytechSearch
         arguments: ["@goutte_client", "@app.service.search_engine.skytech.parser"]
+
+    app.service.search_engine.one_a.parser:
+        class: AppBundle\Service\SearchEngine\OneASearch\OneAParser
+
+    app.service.search_engine.one_a.search:
+        class: AppBundle\Service\SearchEngine\OneASearch\OneASearch
+        arguments: ["@goutte_client", "@app.service.search_engine.one_a.parser"]
