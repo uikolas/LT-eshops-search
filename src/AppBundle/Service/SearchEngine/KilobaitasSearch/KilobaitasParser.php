@@ -23,7 +23,9 @@ class KilobaitasParser implements ParserInterface
                     $node->filter('.itemBoxImage .ItemLink img')->attr('src')
                 ) : null;
 
-                $array['name'] = $node->filter('.ItemLink a')->count() ? $node->filter('.ItemLink a')->text() : null;
+                $array['name'] = $node->filter('.ItemLink a')->count() ? $this->fixName(
+                    $node->filter('.ItemLink a')->text()
+                ) : null;
 
                 $array['price'] = $node->filter('.itemBoxPrice div')->count() ? $this->extractPrice(
                     $node->filter('.itemBoxPrice div')->eq(1)->text()
@@ -78,5 +80,12 @@ class KilobaitasParser implements ParserInterface
         }
 
         return $string;
+    }
+
+    private function fixName($name)
+    {
+        $name = trim($name);
+
+        return $name;
     }
 }
