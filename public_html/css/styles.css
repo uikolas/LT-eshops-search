@@ -12,13 +12,12 @@ h1 {
 	color:#ffffff;
 }
 
-
 /* Custom container */
 .container-full {
   margin: 0 auto;
   width: 100%;
   min-height:100%;
-  background-color:#3F4C6B;
+  background-color:#222222;
   color:#ffffff;
   overflow:hidden;
 }
@@ -55,4 +54,12 @@ table th {
 
 .width {
     width: 130px;
+}
+
+.table thead tr {
+    border-bottom: 2px solid #CCC;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #CCC;
 }
