@@ -19,6 +19,8 @@ services:
     app.service.search_engine.kilobaitas.search:
         class: AppBundle\Service\SearchEngine\KilobaitasSearch\KilobaitasSearch
         arguments: ["@goutte_client", "@app.service.search_engine.kilobaitas.parser"]
+        tags:
+            - { name: app.service.search_engine }
 
     app.service.search_engine.skytech.parser:
         class: AppBundle\Service\SearchEngine\SkytechSearch\SkytechParser
@@ -26,6 +28,8 @@ services:
     app.service.search_engine.skytech.search:
         class: AppBundle\Service\SearchEngine\SkytechSearch\SkytechSearch
         arguments: ["@goutte_client", "@app.service.search_engine.skytech.parser"]
+        tags:
+            - { name: app.service.search_engine }
 
     app.service.search_engine.one_a.parser:
         class: AppBundle\Service\SearchEngine\OneASearch\OneAParser
@@ -33,3 +37,5 @@ services:
     app.service.search_engine.one_a.search:
         class: AppBundle\Service\SearchEngine\OneASearch\OneASearch
         arguments: ["@goutte_client", "@app.service.search_engine.one_a.parser"]
+        tags:
+            - { name: app.service.search_engine }

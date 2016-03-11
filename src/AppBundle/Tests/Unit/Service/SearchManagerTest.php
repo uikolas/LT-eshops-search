@@ -25,17 +25,19 @@ class SearchManagerTest extends KernelAwareTest
 
         $search = $this->searchManager->search($keyword);
 
-        $this->assertTrue(count($search) === 0);
+        foreach ($search as $value) {
+            $this->assertNull($value);
+        }
     }
 
     public function testSearchManager()
     {
-        $keyword = 'samsung sync master';
-
-        $this->searchManager->setSearchEngine($this->container->get('app.service.search_engine.skytech.search'));
+        $keyword = 'Samsung galaxy S4';
 
         $search = $this->searchManager->search($keyword);
 
-        $this->assertTrue(count($search) > 0);
+        foreach ($search as $value) {
+            $this->assertTrue(count($value) > 0);
+        }
     }
 }

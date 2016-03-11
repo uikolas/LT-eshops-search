@@ -2,28 +2,28 @@
 
 namespace AppBundle\Service\SearchEngine\OneASearch;
 
+use AppBundle\Service\ParserInterface;
 use AppBundle\Service\SearchInterface;
+use AppBundle\Service\SearchUrlInterface;
 use Goutte\Client;
 
-class OneASearch implements SearchInterface
+class OneASearch implements SearchInterface, SearchUrlInterface
 {
-    const URL = 'http://www.1a.lt/search/';
-
     /**
      * @var Client
      */
     private $client;
 
     /**
-     * @var OneAParser
+     * @var ParserInterface
      */
     private $parser;
 
     /**
      * @param Client $client
-     * @param OneAParser $parser
+     * @param ParserInterface $parser
      */
-    public function __construct(Client $client, OneAParser $parser)
+    public function __construct(Client $client, ParserInterface $parser)
     {
         $this->client = $client;
         $this->parser = $parser;
@@ -35,10 +35,18 @@ class OneASearch implements SearchInterface
      */
     public function search($keyword)
     {
-        $crawler = $this->client->request('GET', self::URL.$keyword);
+        $crawler = $this->client->request('GET', $this->getSearchUrl().$keyword);
 
         $parsedData = $this->parser->parse($crawler);
 
         return $parsedData;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSearchUrl()
+    {
+        return 'http://www.1a.lt/search/';
     }
 }

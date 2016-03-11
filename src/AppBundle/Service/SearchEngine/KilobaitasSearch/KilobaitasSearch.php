@@ -2,28 +2,28 @@
 
 namespace AppBundle\Service\SearchEngine\KilobaitasSearch;
 
+use AppBundle\Service\ParserInterface;
 use AppBundle\Service\SearchInterface;
+use AppBundle\Service\SearchUrlInterface;
 use Goutte\Client;
 
-class KilobaitasSearch implements SearchInterface
+class KilobaitasSearch implements SearchInterface, SearchUrlInterface
 {
-    const URL = 'http://www.kilobaitas.lt/Ieskoti/CatalogStore.aspx?criteria=';
-
     /**
      * @var Client
      */
     private $client;
 
     /**
-     * @var KilobaitasParser
+     * @var ParserInterface
      */
     private $parser;
 
     /**
      * @param Client $client
-     * @param KilobaitasParser $parser
+     * @param ParserInterface $parser
      */
-    public function __construct(Client $client, KilobaitasParser $parser)
+    public function __construct(Client $client, ParserInterface $parser)
     {
         $this->client = $client;
         $this->parser = $parser;
@@ -35,10 +35,18 @@ class KilobaitasSearch implements SearchInterface
      */
     public function search($keyword)
     {
-        $crawler = $this->client->request('GET', self::URL.$keyword);
+        $crawler = $this->client->request('GET', $this->getSearchUrl().$keyword);
 
         $parsedData = $this->parser->parse($crawler);
 
         return $parsedData;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSearchUrl()
+    {
+        return 'http://www.kilobaitas.lt/Ieskoti/CatalogStore.aspx?criteria=';
     }
 }

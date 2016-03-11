@@ -9,7 +9,6 @@ use Symfony\Component\DomCrawler\Crawler;
 class KilobaitasParser implements ParserInterface
 {
     const URL = 'http://www.kilobaitas.lt/';
-    const SHOP = 'Kilobaitas';
 
     /**
      * @param Crawler $crawler
@@ -17,29 +16,36 @@ class KilobaitasParser implements ParserInterface
      */
     public function parse(Crawler $crawler)
     {
-        $data = $crawler->filter('.itemNormal')->count() ? $crawler->filter('.itemNormal')->each(
-            function (Crawler $node) {
-                $array['image'] = $node->filter('.itemBoxImage .ItemLink img')->count() ? $this->fixImgUrl(
-                    $node->filter('.itemBoxImage .ItemLink img')->attr('src')
-                ) : null;
+        $data = null;
 
-                $array['name'] = $node->filter('.ItemLink a')->count() ? $this->fixName(
-                    $node->filter('.ItemLink a')->text()
-                ) : null;
+        if ($crawler->filter('.itemNormal')->count()) {
+            $data = $crawler->filter('.itemNormal')->each(function (Crawler $node) {
+                $array['image'] = null;
+                $array['name']  = null;
+                $array['price'] = null;
+                $array['link']  = null;
 
-                $array['price'] = $node->filter('.itemBoxPrice div')->count() ? $this->extractPrice(
-                    $node->filter('.itemBoxPrice div')->eq(1)->text()
-                ) : null;
+                if ($node->filter('.itemBoxImage .ItemLink img')->count()) {
+                    $array['image'] = $this->fixImgUrl($node->filter('.itemBoxImage .ItemLink img')->attr('src'));
+                }
 
-                $array['link'] = $node->filter('.ItemLink a')->count() ? $this->addLink(
-                    $node->filter('.ItemLink a')->attr('href')
-                ) : null;
+                if ($node->filter('.ItemLink a')->count()) {
+                    $array['name'] = $this->fixName($node->filter('.ItemLink a')->text());
+                }
 
-                $array['shop'] = self::SHOP;
+                if ($node->filter('.itemBoxPrice div')->count()) {
+                    $array['price'] = $this->extractPrice($node->filter('.itemBoxPrice div')->eq(1)->text());
+                }
+
+                if ($node->filter('.ItemLink a')->count()) {
+                    $array['link'] = $this->addLink($node->filter('.ItemLink a')->attr('href'));
+                }
+
+                $array['shop'] = 'Kilobaitas';
 
                 return $array;
-            }
-        ) : null;
+            });
+        }
 
         return $data;
     }

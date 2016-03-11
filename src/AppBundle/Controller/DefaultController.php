@@ -22,13 +22,9 @@ class DefaultController extends Controller
      */
     public function search(Request $request)
     {
-        $keyword = $request->get('keyword');
+        $keyword = $request->query->get('keyword');
 
         $searchManager = $this->get('app.service.search_manager');
-
-        $searchManager->setSearchEngine($this->get('app.service.search_engine.kilobaitas.search'));
-        $searchManager->setSearchEngine($this->get('app.service.search_engine.skytech.search'));
-        $searchManager->setSearchEngine($this->get('app.service.search_engine.one_a.search'));
 
         $data = $searchManager->search($keyword);
 
