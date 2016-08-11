@@ -20,4 +20,12 @@ class UtilTest extends KernelAwareTest
 
         $this->assertTrue(Util::hasHttp($string));
     }
+
+    public function testAddLink()
+    {
+        $url  = 'http://google.lt/';
+        $link = '/some-link.html';
+
+        $this->assertEquals('http://google.lt/some-link.html', Util::addLink($url, $link));
+    }
 }

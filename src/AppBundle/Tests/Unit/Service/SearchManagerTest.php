@@ -19,17 +19,6 @@ class SearchManagerTest extends KernelAwareTest
         $this->searchManager = $this->container->get('app.service.search_manager');
     }
 
-    public function testEmptySearchManager()
-    {
-        $keyword = 'keyword';
-
-        $search = $this->searchManager->search($keyword);
-
-        foreach ($search as $value) {
-            $this->assertNull($value);
-        }
-    }
-
     public function testSearchManager()
     {
         $keyword = 'Samsung galaxy S4';
@@ -38,6 +27,17 @@ class SearchManagerTest extends KernelAwareTest
 
         foreach ($search as $value) {
             $this->assertTrue(count($value) > 0);
+        }
+    }
+
+    public function testEmptySearchManager()
+    {
+        $keyword = 'keyword';
+
+        $search = $this->searchManager->search($keyword);
+
+        foreach ($search as $value) {
+            $this->assertEmpty($value);
         }
     }
 }

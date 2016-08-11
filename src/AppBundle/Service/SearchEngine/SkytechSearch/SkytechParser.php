@@ -2,41 +2,47 @@
 
 namespace AppBundle\Service\SearchEngine\SkytechSearch;
 
+use AppBundle\Service\ParseObject;
 use AppBundle\Service\ParserInterface;
+use AppBundle\Service\Util;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SkytechParser implements ParserInterface
 {
     const URL = 'http://www.skytech.lt/';
-    const SHOP = 'Skytech';
 
     /**
      * @param Crawler $crawler
-     * @return mixed
+     * @return array
      */
-    public function parse(Crawler $crawler)
+    public function parseDomCrawler(Crawler $crawler)
     {
-        $data = $crawler->filter('.product-listing-grid-item')->count() ? $crawler->filter('.product-listing-grid-item')->each(
-            function (Crawler $node) {
-                $array['image'] = $node->filter('.image-wrap img')->count() ? $this->addLink(
-                    $node->filter('.image-wrap img')->attr('src')
-                ) : null;
+        $data = [];
 
-                $array['name'] = $node->filter('.product-name')->count() ? $node->filter('.product-name')->text() : null;
+        if ($crawler->filter('.product-listing-grid-item')->count()) {
+            $data = $crawler->filter('.product-listing-grid-item')->each(function (Crawler $node) {
+                $parseObject = new ParseObject();
+                $parseObject->setShop('Skytech');
 
-                $array['price'] = $node->filter('.eprice')->count() ? $this->extractPrice(
-                    $node->filter('.eprice')->text()
-                ) : null;
+                if ($node->filter('.image-wrap img')->count()) {
+                    $parseObject->setImage(Util::addLink(self::URL, $node->filter('.image-wrap img')->attr('src')));
+                }
 
-                $array['link'] = $node->filter('.product-name a')->count() ? $this->addLink(
-                    $node->filter('.product-name a')->attr('href')
-                ) : null;
+                if ($node->filter('.product-name')->count()) {
+                    $parseObject->setName($node->filter('.product-name')->text());
+                }
 
-                $array['shop'] = self::SHOP;
+                if ($node->filter('.eprice')->count()) {
+                    $parseObject->setPrice($this->extractPrice($node->filter('.eprice')->text()));
+                }
 
-                return $array;
-            }
-        ) : null;
+                if ($node->filter('.product-name a')->count()) {
+                    $parseObject->setLink(Util::addLink(self::URL, $node->filter('.product-name a')->attr('href')));
+                }
+
+                return $parseObject;
+            });
+        }
 
         return $data;
     }
@@ -51,15 +57,5 @@ class SkytechParser implements ParserInterface
         $price = str_replace(' ', '', $price[0]);
 
         return $price;
-    }
-
-    /**
-     * @param $string
-     * @return string
-     */
-    private function addLink($string)
-    {
-        $string = ltrim($string, '/');
-        return self::URL.$string;
     }
 }

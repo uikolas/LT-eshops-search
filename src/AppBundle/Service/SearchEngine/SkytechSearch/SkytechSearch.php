@@ -4,10 +4,9 @@ namespace AppBundle\Service\SearchEngine\SkytechSearch;
 
 use AppBundle\Service\ParserInterface;
 use AppBundle\Service\SearchInterface;
-use AppBundle\Service\SearchUrlInterface;
 use Goutte\Client;
 
-class SkytechSearch implements SearchInterface, SearchUrlInterface
+class SkytechSearch implements SearchInterface
 {
     /**
      * @var Client
@@ -31,22 +30,23 @@ class SkytechSearch implements SearchInterface, SearchUrlInterface
 
     /**
      * @param string $keyword
-     * @return mixed
+     * @return array
      */
     public function search($keyword)
     {
-        $crawler = $this->client->request('GET', $this->getSearchUrl().$keyword);
+        $domCrawler = $this->client->request('GET', $this->getSearchUrlWithKeyword($keyword));
 
-        $parsedData = $this->parser->parse($crawler);
+        $parsedArray = $this->parser->parseDomCrawler($domCrawler);
 
-        return $parsedData;
+        return $parsedArray;
     }
 
     /**
+     * @param $keyword
      * @return string
      */
-    public function getSearchUrl()
+    public function getSearchUrlWithKeyword($keyword)
     {
-        return 'http://www.skytech.lt/search.php?sand=0&pav=2&sort=5a&grp=0&page=1&pagesize=100&page=1&pagesize=100&keywords=';
+        return 'http://www.skytech.lt/search.php?sand=0&pav=2&sort=5a&grp=0&page=1&pagesize=100&page=1&pagesize=100&keywords='.$keyword;
     }
 }

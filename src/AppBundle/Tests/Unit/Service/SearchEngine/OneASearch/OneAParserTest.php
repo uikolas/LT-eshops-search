@@ -37,7 +37,7 @@ class OneAParserTest extends KernelAwareTest
 
         $crawler = $client->request('GET', $searchEngine::URL.$keyword);
 
-        $parsedData = $this->parser->parse($crawler);
+        $parsedData = $this->parser->parseDomCrawler($crawler);
 
         foreach ($parsedData as $data) {
             $this->assertNotNull($data['image'], 'Got null response, on image parse');

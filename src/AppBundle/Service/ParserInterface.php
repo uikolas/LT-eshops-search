@@ -8,7 +8,7 @@ interface ParserInterface
 {
     /**
      * @param Crawler $crawler
-     * @return mixed
+     * @return array
      */
-    public function parse(Crawler $crawler);
+    public function parseDomCrawler(Crawler $crawler);
 }

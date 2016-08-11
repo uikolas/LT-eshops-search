@@ -5,7 +5,7 @@ namespace AppBundle\Service;
 class SearchManager
 {
     /**
-     * @var SearchInterface
+     * @var SearchInterface[]
      */
     private $searchEngine;
 
@@ -25,12 +25,8 @@ class SearchManager
     {
         $data = [];
 
-        /*** @var SearchInterface $search */
-        if ($this->searchEngine) {
-            foreach ($this->searchEngine as $search) {
-                $array[] = $search->search($keyword);
-                $data = array_merge($array);
-            }
+        foreach ($this->searchEngine as $search) {
+            $data[] = $search->search($keyword);
         }
 
         return $data;

@@ -2,39 +2,45 @@
 
 namespace AppBundle\Service\SearchEngine\OneASearch;
 
+use AppBundle\Service\ParseObject;
 use AppBundle\Service\ParserInterface;
+use AppBundle\Service\Util;
 use Symfony\Component\DomCrawler\Crawler;
 
 class OneAParser implements ParserInterface
 {
     const URL = 'http://www.1a.lt/';
-    const SHOP = '1a.lt';
 
     /**
      * @param Crawler $crawler
      * @return mixed
      */
-    public function parse(Crawler $crawler)
+    public function parseDomCrawler(Crawler $crawler)
     {
-        $data = $crawler->filter('.product')->count() ? $crawler->filter('.product')->each(
-            function (Crawler $node) {
-                $array['image'] = $node->filter('.p-image img')->count() ? $this->addLink(
-                    $node->filter('.p-image img')->attr('src')
-                ) : null;
+        $data = [];
 
-                $array['name'] = $node->filter('.p-content h3 a')->count() ? $node->filter('.p-content h3 a')->text() : null;
+        if ($crawler->filter('.product')->count()) {
+            $data = $crawler->filter('.product')->each(function (Crawler $node) {
+                $parseObject = new ParseObject();
+                $parseObject->setShop('1a');
 
-                $array['price'] = $this->extractPrice($node);
+                if ($node->filter('.p-image img')->count()) {
+                    $parseObject->setImage(Util::addLink(self::URL, $node->filter('.p-image img')->attr('src')));
+                }
 
-                $array['link'] = $node->filter('.p-content h3 a')->count() ? $this->addLink(
-                    $node->filter('.p-content h3 a')->attr('href')
-                ) : null;
+                if ($node->filter('.p-content h3 a')->count()) {
+                    $parseObject->setName($node->filter('.p-content h3 a')->text());
+                }
 
-                $array['shop'] = self::SHOP;
+                $parseObject->setPrice($this->extractPrice($node));
 
-                return $array;
-            }
-        ) : null;
+                if ($node->filter('.p-content h3 a')->count()) {
+                    $parseObject->setLink(Util::addLink(self::URL, $node->filter('.p-content h3 a')->attr('href')));
+                }
+
+                return $parseObject;
+            });
+        }
 
         return $data;
     }
@@ -56,16 +62,5 @@ class OneAParser implements ParserInterface
         }
 
         return $price;
-    }
-
-    /**
-     * @param $string
-     * @return string
-     */
-    private function addLink($string)
-    {
-        $string = ltrim($string, '/');
-
-        return self::URL.$string;
     }
 }

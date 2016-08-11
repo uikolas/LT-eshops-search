@@ -21,7 +21,7 @@ class KilobaitasSearchTest extends KernelAwareTest
 
     public function testSearchWithResults()
     {
-        $keyword = 'samsung sync master';
+        $keyword = 'samsung s6';
 
         $search = $this->searchEngine->search($keyword);
 

@@ -9,4 +9,10 @@ interface SearchInterface
      * @return mixed
      */
     public function search($keyword);
+
+    /**
+     * @param string $keyword
+     * @return string
+     */
+    public function getSearchUrlWithKeyword($keyword);
 }

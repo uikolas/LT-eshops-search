@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service\SearchEngine\KilobaitasSearch;
 
+use AppBundle\Service\ParseObject;
 use AppBundle\Service\ParserInterface;
 use AppBundle\Service\Util;
 use Symfony\Component\DomCrawler\Crawler;
@@ -12,38 +13,34 @@ class KilobaitasParser implements ParserInterface
 
     /**
      * @param Crawler $crawler
-     * @return mixed
+     * @return array
      */
-    public function parse(Crawler $crawler)
+    public function parseDomCrawler(Crawler $crawler)
     {
-        $data = null;
+        $data = [];
 
         if ($crawler->filter('.itemNormal')->count()) {
             $data = $crawler->filter('.itemNormal')->each(function (Crawler $node) {
-                $array['image'] = null;
-                $array['name']  = null;
-                $array['price'] = null;
-                $array['link']  = null;
+                $parseObject = new ParseObject();
+                $parseObject->setShop('Kilobaitas');
 
                 if ($node->filter('.itemBoxImage .ItemLink img')->count()) {
-                    $array['image'] = $this->fixImgUrl($node->filter('.itemBoxImage .ItemLink img')->attr('src'));
+                    $parseObject->setImage($this->fixImgUrl($node->filter('.itemBoxImage .ItemLink img')->attr('src')));
                 }
 
                 if ($node->filter('.ItemLink a')->count()) {
-                    $array['name'] = $this->fixName($node->filter('.ItemLink a')->text());
+                    $parseObject->setName($this->fixName($node->filter('.ItemLink a')->text()));
                 }
 
                 if ($node->filter('.itemBoxPrice div')->count()) {
-                    $array['price'] = $this->extractPrice($node->filter('.itemBoxPrice div')->eq(1)->text());
+                    $parseObject->setPrice($this->extractPrice($node->filter('.itemBoxPrice div')->eq(1)->text()));
                 }
 
                 if ($node->filter('.ItemLink a')->count()) {
-                    $array['link'] = $this->addLink($node->filter('.ItemLink a')->attr('href'));
+                    $parseObject->setLink(Util::addLink(self::URL, $node->filter('.ItemLink a')->attr('href')));
                 }
 
-                $array['shop'] = 'Kilobaitas';
-
-                return $array;
+                return $parseObject;
             });
         }
 
@@ -65,27 +62,16 @@ class KilobaitasParser implements ParserInterface
     }
 
     /**
-     * @param $string
+     * @param $url
      * @return string
      */
-    private function addLink($string)
+    private function fixImgUrl($url)
     {
-        $string = ltrim($string, '/');
-
-        return self::URL.$string;
-    }
-
-    /**
-     * @param $string
-     * @return string
-     */
-    private function fixImgUrl($string)
-    {
-        if (!Util::hasHttp($string)) {
-            $string = $this->addLink($string);
+        if (!Util::hasHttp($url)) {
+            $url = Util::addLink(self::URL, $url);
         }
 
-        return $string;
+        return $url;
     }
 
     private function fixName($name)

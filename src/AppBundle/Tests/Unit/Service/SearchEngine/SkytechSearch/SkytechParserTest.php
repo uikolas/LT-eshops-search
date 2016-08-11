@@ -29,15 +29,17 @@ class SkytechParserTest extends KernelAwareTest
 
     public function testNotNullNodes()
     {
-        $keyword = 'samsung sync master';
+        $keyword = 'samsung s5';
 
         $client = new Client();
 
         $searchEngine = $this->container->get('app.service.search_engine.skytech.search');
 
-        $crawler = $client->request('GET', $searchEngine::URL.$keyword);
+        $crawler = $client->request('GET', $searchEngine->getSearchUrlWithKeyword().$keyword);
 
-        $parsedData = $this->parser->parse($crawler);
+        $parsedData = $this->parser->parseDomCrawler($crawler);
+
+        $this->assertTrue(count($parsedData) > 0);
 
         foreach ($parsedData as $data) {
             $this->assertNotNull($data['image'], 'Got null response, on image parse');

@@ -36,6 +36,8 @@ var app = (function($) {
                 console.log(response);
                 waitingDialog.hide();
 
+                $.tablesorter.clearTableBody(table);
+
                 htmlBody.animate({
                     scrollTop: container.offset().top
                 }, 1500);

@@ -28,9 +28,9 @@ class DefaultController extends Controller
 
         $data = $searchManager->search($keyword);
 
-        $response = new JsonResponse($data);
-        $response->setEncodingOptions(JSON_PRETTY_PRINT);
+        $jsonResponse = new JsonResponse($data);
+        $jsonResponse->setEncodingOptions(JSON_PRETTY_PRINT);
 
-        return $response;
+        return $jsonResponse;
     }
 }
