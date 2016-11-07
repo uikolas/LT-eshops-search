@@ -2,22 +2,22 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Paieška LT parduotuvėse{% endblock %}</title>
+        <title>{% block title %}Paieška LT el. parduotuvėse{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/flatly.css') }}" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://bootswatch.com/flatly/bootstrap.min.css" rel="stylesheet">
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/theme.default.css') }}" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div id="app">
+            {% block body %}{% endblock %}
+        </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.tablesorter.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.tablesorter.combined.js') }}"></script>
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
         <script src="{{ asset('js/waitingDialog.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
         {% block javascripts %}{% endblock %}
