@@ -1,63 +1,46 @@
-var app = (function($) {
-    var htmlBody = $('html, body');
-    var searchButton = $('#search');
-    var keywordInput = $('#keyword');
-    var table = $("#table");
-    var container = $('.container');
-
-    init = {
-        bootstrap: function() {
-            table.tablesorter();
-            this.onSearchClick();
-            this.onKeyPress();
-        },
-        onSearchClick: function() {
+new Vue({
+    el: '#app',
+    data: {
+        keyword: '',
+        sortDescending: false,
+        items: []
+    },
+    methods: {
+        search: function () {
             var self = this;
-            searchButton.click(function(e){
-                self.search(e);
-            });
-        },
-        onKeyPress: function() {
-            var self = this;
-            htmlBody.keypress(function(e) {
-                if(e.which == 13) {
-                    self.search(e);
-                }
-            });
-        },
-        search: function(e) {
-            e.preventDefault();
-
             waitingDialog.show();
 
-            var value = keywordInput.val();
+            this.$http.get(ajaxUrl, { params: { keyword : this.keyword}}).then(function (response) {
+                var array = response.body;
+                self.items = [];
 
-            $.getJSON(ajaxUrl, { keyword : value}, function(response){
-                console.log(response);
-                waitingDialog.hide();
-
-                $.tablesorter.clearTableBody(table);
-
-                htmlBody.animate({
-                    scrollTop: container.offset().top
-                }, 1500);
-
-                $.each(response, function(i, array){
-                    $.each(array, function(i, field){
-                        var row =
-                            '<tr>' +
-                            '<td align="center"><img src="' + field.image + '" class="width" /></td>' +
-                            '<td><a href="' + field.link + '" target="_blank">' + field.name + '</a></td>' +
-                            '<td>' + field.price + '</td>' +
-                            '<td>' + field.shop + '</td>' +
-                            '</tr>';
-                        $row = $(row);
-                        table.find('tbody').append($row).trigger('addRows', [$row, false]);
-                    });
+                array.forEach(function (items) {
+                    items.forEach(function (item) {
+                        self.items.push(item);
+                    })
                 });
-            });
-        }
-    };
 
-    return init;
-})(jQuery);
+                waitingDialog.hide();
+                self.scrollTo();
+
+            }, function (response) {
+                waitingDialog.hide();
+                console.log(response)
+            });
+        },
+        sortBy: function () {
+            this.sortDescending = !this.sortDescending;
+
+            var sorting = this.sortDescending;
+
+            this.items.sort(function(a, b) {
+                return sorting ? parseFloat(b.price) - parseFloat(a.price) : parseFloat(a.price) - parseFloat(b.price);
+            });
+        },
+        scrollTo: function () {
+            $('html, body').animate({
+                scrollTop: $('.container').offset().top
+            }, 1500);
+        }
+    }
+})

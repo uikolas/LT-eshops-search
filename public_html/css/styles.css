@@ -48,9 +48,9 @@ h1 {
     outline: none;
 }
 
-table th {
+/*table th {
     cursor: pointer;
-}
+}*/
 
 .width {
     width: 130px;
@@ -62,4 +62,8 @@ table th {
 
 .table tbody tr {
     border-bottom: 1px solid #CCC;
+}
+
+#app {
+    height: 100%
 }
