@@ -3,6 +3,7 @@ new Vue({
     data: {
         keyword: '',
         sortDescending: false,
+        sortIcon: 'glyphicon-chevron-down',
         items: []
     },
     methods: {
@@ -30,6 +31,7 @@ new Vue({
         },
         sortBy: function () {
             this.sortDescending = !this.sortDescending;
+            this.sortIcon = this.sortDescending ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up';
 
             var sorting = this.sortDescending;
 

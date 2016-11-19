@@ -34,7 +34,7 @@
                                     <th style="width: 60%;">Pavadinimas</th>
                                     <th style="width: 10%; cursor: pointer;" v-on:click="sortBy">
                                         Kaina
-                                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                                        <span class="glyphicon" v-bind:class="sortIcon" aria-hidden="true"></span>
                                     </th>
                                     <th style="width: 10%;">Parduotuve</th>
                                 </tr>
