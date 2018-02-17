@@ -1,7 +1,0 @@
-app_index:
-    path: /
-    defaults: { _controller: AppBundle\Controller\DefaultController::index }
-
-app_search:
-    path: /search
-    defaults: { _controller: AppBundle\Controller\DefaultController::search }
