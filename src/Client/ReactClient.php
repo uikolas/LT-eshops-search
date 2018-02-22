@@ -5,7 +5,7 @@ namespace App\Client;
 use Clue\React\Buzz\Browser;
 use React\EventLoop\LoopInterface;
 
-class Client
+class ReactClient implements ClientInterface
 {
     /**
      * @var LoopInterface
@@ -17,21 +17,29 @@ class Client
      */
     private $browser;
 
+    /**
+     * @param LoopInterface $loop
+     * @param Browser $browser
+     */
     public function __construct(LoopInterface $loop, Browser $browser)
     {
-        $this->loop = $loop;
+        $this->loop    = $loop;
         $this->browser = $browser;
     }
 
     /**
      * @param string $url
-     * @return \React\Promise\PromiseInterface
+     * @param callable $success
+     * @param callable|null $error
      */
-    public function get($url)
+    public function get($url, callable $success, callable $error = null)
     {
-        return $this->browser->get($url);
+        $this->browser->get($url)->then($success, $error);
     }
 
+    /**
+     * @void
+     */
     public function run()
     {
         $this->loop->run();

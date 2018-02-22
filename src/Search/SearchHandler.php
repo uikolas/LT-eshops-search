@@ -2,13 +2,12 @@
 
 namespace App\Search;
 
-use App\Client\Client;
+use App\Client\ClientInterface;
 use App\Parser\Parser;
 use Psr\Http\Message\ResponseInterface;
 
 class SearchHandler
 {
-
     /**
      * @var Parser[]
      */
@@ -20,20 +19,20 @@ class SearchHandler
     private $validator;
 
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
     /**
      * @param iterable $parsers
      * @param SearchHandlerValidator $validator
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(iterable $parsers, SearchHandlerValidator $validator, Client $client)
+    public function __construct(iterable $parsers, SearchHandlerValidator $validator, ClientInterface $client)
     {
-        $this->parsers = $parsers;
+        $this->parsers   = $parsers;
         $this->validator = $validator;
-        $this->client = $client;
+        $this->client    = $client;
     }
 
     /**
@@ -47,14 +46,12 @@ class SearchHandler
         $products = [];
 
         foreach ($this->parsers as $parser) {
-            $this->client->get($parser->getUrl($keyword))->then(
+            $this->client->get(
+                $parser->getUrl($keyword),
                 function (ResponseInterface $response) use ($parser, &$products) {
                     $parsed = $parser->parse((string) $response->getBody());
 
                     $products = array_merge($products, $parsed);
-                },
-                function (\Exception $error) {
-                    //var_dump('There was an error', $error->getMessage());
                 }
             );
         }

@@ -33,3 +33,5 @@ services:
 
     App\Search\SearchHandler:
         arguments: [!tagged app.parser]
+
+    App\Client\ClientInterface: '@App\Client\ReactClient'

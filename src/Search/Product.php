@@ -27,22 +27,22 @@ class Product implements \JsonSerializable
     /**
      * @var string
      */
-    private $shopName;
+    private $shop;
 
     /**
      * @param string $name
      * @param string $image
      * @param string $price
      * @param string $url
-     * @param string $shopName
+     * @param string $shop
      */
-    public function __construct($name, $image, $price, $url, $shopName)
+    public function __construct($name, $image, $price, $url, $shop)
     {
-        $this->name     = $name;
-        $this->image    = $image;
-        $this->price    = $price;
-        $this->url      = $url;
-        $this->shopName = $shopName;
+        $this->name  = $name;
+        $this->image = $image;
+        $this->price = $price;
+        $this->url   = $url;
+        $this->shop  = $shop;
     }
 
     /**
@@ -55,11 +55,11 @@ class Product implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'name'      => $this->name,
-            'image'     => $this->image,
-            'price'     => $this->price,
-            'url'       => $this->url,
-            'shop_name' => $this->shopName,
+            'name'  => $this->name,
+            'image' => $this->image,
+            'price' => $this->price,
+            'url'   => $this->url,
+            'shop'  => $this->shop,
         ];
     }
 }
