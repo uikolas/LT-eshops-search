@@ -4,7 +4,7 @@ namespace App\Parser;
 
 use App\Search\Product;
 
-interface Parser
+interface ParserInterface
 {
     /**
      * @param string $content

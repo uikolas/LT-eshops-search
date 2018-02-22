@@ -3,13 +3,13 @@
 namespace App\Search;
 
 use App\Client\ClientInterface;
-use App\Parser\Parser;
+use App\Parser\ParserInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class SearchHandler
 {
     /**
-     * @var Parser[]
+     * @var ParserInterface[]
      */
     private $parsers = [];
 

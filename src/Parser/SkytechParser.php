@@ -5,7 +5,7 @@ namespace App\Parser;
 use App\Search\Product;
 use Symfony\Component\DomCrawler\Crawler;
 
-class SkytechParser implements Parser
+class SkytechParser implements ParserInterface
 {
     /**
      * @param string $content

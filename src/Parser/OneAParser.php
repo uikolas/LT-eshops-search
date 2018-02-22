@@ -5,7 +5,7 @@ namespace App\Parser;
 use App\Search\Product;
 use Symfony\Component\DomCrawler\Crawler;
 
-class OneAParser implements Parser
+class OneAParser implements ParserInterface
 {
     /**
      * @param string $content

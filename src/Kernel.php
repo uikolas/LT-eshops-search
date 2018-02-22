@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Parser\Parser;
+use App\Parser\ParserInterface;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -58,6 +58,6 @@ class Kernel extends BaseKernel
 
     protected function build(ContainerBuilder $container)
     {
-        $container->registerForAutoconfiguration(Parser::class)->addTag('app.parser');
+        $container->registerForAutoconfiguration(ParserInterface::class)->addTag('app.parser');
     }
 }

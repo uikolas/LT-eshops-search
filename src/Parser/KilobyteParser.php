@@ -5,7 +5,7 @@ namespace App\Parser;
 use App\Search\Product;
 use Symfony\Component\DomCrawler\Crawler;
 
-class KilobyteParser implements Parser
+class KilobyteParser implements ParserInterface
 {
     /**
      * @param string $content
