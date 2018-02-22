@@ -49,7 +49,9 @@ class SearchHandler
         foreach ($this->parsers as $parser) {
             $this->client->get($parser->getUrl($keyword))->then(
                 function (ResponseInterface $response) use ($parser, &$products) {
-                    $products[] = $parser->parse((string) $response->getBody());
+                    $parsed = $parser->parse((string) $response->getBody());
+
+                    $products = array_merge($products, $parsed);
                 },
                 function (\Exception $error) {
                     //var_dump('There was an error', $error->getMessage());

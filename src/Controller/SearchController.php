@@ -33,7 +33,10 @@ class SearchController
 
             $results = $this->searchHandler->search($keyword);
 
-            $response = new JsonResponse($results);
+            $response = new JsonResponse([
+                'data'  => $results,
+                'total' => count($results)
+            ]);
             $response->setEncodingOptions(JSON_PRETTY_PRINT);
 
             return $response;
