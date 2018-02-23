@@ -11,7 +11,7 @@ Encore
     // .enableVersioning(Encore.isProduction())
 
     // uncomment to define the assets of the project
-     .addEntry('js/app', './assets/js/index.js')
+     .addEntry('js/bundle', './assets/js/index.tsx')
     // .addStyleEntry('css/app', './assets/css/app.scss')
 
     // uncomment if you use Sass/SCSS files
@@ -21,6 +21,10 @@ Encore
     // .autoProvidejQuery()
 
     .enableReactPreset()
+
+    .enableTypeScriptLoader(function (typeScriptConfigOptions) {
+        typeScriptConfigOptions.configFile = 'tsconfig.json';
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();
