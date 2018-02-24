@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 class UnitTestCase extends TestCase
 {
-    protected function loadData($file)
+    protected function loadTestData($file)
     {
-        return $content = file_get_contents(__DIR__ . '/../Data/'.$file);
+        return $content = file_get_contents(__DIR__ . '/../TestData/'.$file);
     }
 }
