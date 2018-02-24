@@ -1,6 +1,8 @@
 import * as React from "react";
-import Form from "./components/Form";
-import SearchService from "./services/SearchService";
+import SearchBar from "./components/SearchBar";
+import Search from "./services/Search";
+import Table from "./components/table/Table";
+import ProductSorter from "./services/ProductSorter";
 
 export interface Product {
     name: string;
@@ -10,29 +12,57 @@ export interface Product {
     shop: string;
 }
 
-export interface AppStates {
-    products: Product[]
+export interface Response {
+    data: Product[];
+    total: number;
 }
 
-export default class App extends React.Component<{}, AppStates> {
+export interface States {
+    products: Product[];
+    isLoading: boolean;
+    sortDescending: boolean;
+}
+
+export default class App extends React.Component<{}, States> {
     constructor(props) {
         super(props);
 
         this.state = {
             products: [],
+            isLoading: true,
+            sortDescending: false,
         };
     }
 
-    private handleOnPress(keyword: string) {
-        //TODO: call search service?
-        alert(keyword)
+    private handleOnSearchPress(keyword: string) {
+        Search
+            .search(keyword)
+            .then((response: Response) => {
+                this.setState({
+                    products: response.data
+                });
+            })
+            .catch((error) => {
+                //TODO: handle error
+            });
+    }
+
+    private handleOnPricePress(sort: boolean) {
+        this.setState({
+            products: ProductSorter.sort(this.state.products, sort),
+            sortDescending: sort,
+        });
     }
 
     public render() {
         return (
             <div>
-                <Form
-                    onPress={(keyword) => this.handleOnPress(keyword)}
+                <SearchBar onPress={(keyword) => this.handleOnSearchPress(keyword)}/>
+
+                <Table
+                    products={this.state.products}
+                    sortDescending={this.state.sortDescending}
+                    onPricePress={(sort) => this.handleOnPricePress(sort)}
                 />
             </div>
         );

@@ -1,15 +1,15 @@
 import * as React from "react";
 
-export interface FormProps {
+export interface Props {
     onPress(value: string): void;
 }
 
-export interface FormStates {
+export interface States {
     value: string;
 }
 
-export default class Form extends React.Component<FormProps, FormStates> {
-    constructor(props: FormProps) {
+export default class SearchBar extends React.Component<Props, States> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
