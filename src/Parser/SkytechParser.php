@@ -5,30 +5,10 @@ namespace App\Parser;
 use App\Search\Product;
 use Symfony\Component\DomCrawler\Crawler;
 
-class SkytechParser implements ParserInterface
+class SkytechParser extends AbstractDomCrawlerParser
 {
     const URL = 'http://www.skytech.lt/';
 
-    /**
-     * @param string $content
-     * @return Product[]
-     */
-    public function parse($content)
-    {
-        $data = [];
-
-        $crawler = new Crawler($content);
-
-        $products = $crawler->filter('.product-listing-grid-item');
-
-        if ($products->count()) {
-            $data = $products->each(function (Crawler $node) {
-                return $this->parseNode($node);
-            });
-        }
-
-        return $data;
-    }
     /**
      * @param string $keyword
      * @return string
@@ -39,10 +19,18 @@ class SkytechParser implements ParserInterface
     }
 
     /**
+     * @return string
+     */
+    protected function styleName()
+    {
+        return '.product-listing-grid-item';
+    }
+
+    /**
      * @param Crawler $node
      * @return Product
      */
-    private function parseNode(Crawler $node)
+    protected function parseNode(Crawler $node)
     {
         $image = self::URL . trim($node->filter('.image-wrap img')->attr('src'));
 
