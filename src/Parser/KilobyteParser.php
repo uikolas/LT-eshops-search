@@ -5,30 +5,9 @@ namespace App\Parser;
 use App\Search\Product;
 use Symfony\Component\DomCrawler\Crawler;
 
-class KilobyteParser implements ParserInterface
+class KilobyteParser extends AbstractDomCrawlerParser
 {
     const URL = 'https://www.kilobaitas.lt';
-
-    /**
-     * @param string $content
-     * @return Product[]
-     */
-    public function parse($content)
-    {
-        $data = [];
-
-        $crawler = new Crawler($content);
-
-        $products = $crawler->filter('.itemNormal');
-
-        if ($products->count()) {
-            $data = $products->each(function (Crawler $node) {
-                return $this->parseNode($node);
-            });
-        }
-
-        return $data;
-    }
 
     /**
      * @param string $keyword
@@ -40,10 +19,18 @@ class KilobyteParser implements ParserInterface
     }
 
     /**
+     * @return string
+     */
+    protected function styleName()
+    {
+        return '.itemNormal';
+    }
+
+    /**
      * @param Crawler $node
      * @return Product
      */
-    private function parseNode(Crawler $node)
+    protected function parseNode(Crawler $node)
     {
         $image = trim($node->filter('.itemBoxImage .ItemLink img')->attr('src'));
 

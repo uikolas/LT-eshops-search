@@ -5,30 +5,9 @@ namespace App\Parser;
 use App\Search\Product;
 use Symfony\Component\DomCrawler\Crawler;
 
-class OneAParser implements ParserInterface
+class OneAParser extends AbstractDomCrawlerParser
 {
     const URL = 'https://www.1a.lt';
-
-    /**
-     * @param string $content
-     * @return Product[]
-     */
-    public function parse($content)
-    {
-        $data = [];
-
-        $crawler = new Crawler($content);
-
-        $products = $crawler->filter('.product');
-
-        if ($products->count()) {
-            $data = $products->each(function (Crawler $node) {
-                return $this->parseNode($node);
-            });
-        }
-
-        return $data;
-    }
 
     /**
      * @param string $keyword
@@ -40,10 +19,18 @@ class OneAParser implements ParserInterface
     }
 
     /**
+     * @return string
+     */
+    protected function styleName()
+    {
+        return '.product';
+    }
+
+    /**
      * @param Crawler $node
      * @return Product
      */
-    private function parseNode(Crawler $node)
+    protected function parseNode(Crawler $node)
     {
         $image = self::URL . trim($node->filter('.p-image img')->attr('src'));
 
