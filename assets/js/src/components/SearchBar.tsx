@@ -1,4 +1,5 @@
 import * as React from "react";
+import Card from "./Card";
 
 export interface Props {
     onPress(value: string): void;
@@ -29,18 +30,32 @@ export default class SearchBar extends React.Component<Props, States> {
 
     public render() {
         return (
-            <form className="form-inline">
-                <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Jane Doe"
-                    onChange={(e) => this.handleChange(e)}
-                />
+            <Card>
+                <form id="search">
+                    <div className="form-row">
+                        <div className="col-1">
+                            <div className="text-secondary icon">
+                                <i className="fas fa-search"></i>
+                            </div>
+                        </div>
 
-                <button type="button" className="btn btn-primary mb-2" onClick={() => this.handleOnPress()}>
-                    Submit
-                </button>
-            </form>
+                        <div className="col-9">
+                            <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                placeholder="Keyword"
+                                onChange={(e) => this.handleChange(e)}
+                            />
+                        </div>
+
+                        <div className="col-2">
+                            <button type="button" className="btn btn-secondary btn-lg" onClick={() => this.handleOnPress()}>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </Card>
         );
     }
 }

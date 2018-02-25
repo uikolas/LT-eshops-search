@@ -1,0 +1,54 @@
+html,
+body {
+    height: 100%;
+}
+
+.container-full {
+    padding: 50px;
+    background-color: #333;
+    color: #ffffff;
+}
+
+
+
+#app {
+    height: 100%;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+#search input {
+    border: 0;
+}
+
+#search .form-row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#search .icon {
+    padding-left: 15px;
+    padding-top: 15px;
+}
+
+#search .fas {
+    font-size: 20px;
+}
+
+#table .image-width {
+    width: 10%;
+}
+
+#table .name {
+    width: 80%;
+}
+
+#table .price {
+    width: 10%;
+}
+
+#table .shop {
+    width: 10%;
+}

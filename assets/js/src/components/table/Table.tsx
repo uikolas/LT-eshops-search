@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Product} from "../../App";
 import TableRow from "./TableRow";
+import Card from "../Card";
 
 export interface Props {
     products: Product[];
@@ -27,28 +28,32 @@ export default class Table extends React.Component<Props, States> {
 
     public render() {
         const products = this.props.products;
+        const sortIcon = this.props.sortDescending ? <i className="fas fa-chevron-down"></i> : <i className="fas fa-chevron-up"></i>;
 
         return (
-            <div>
-                <table className="table table-striped">
-                    <thead>
+            <Card>
+                <div id="table">
+                    <table className="table table-striped">
+                        <thead>
                         <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>
-                                <a href="#" onClick={() => this.handleOnPriceClick()}>Price</a>
-                                {this.props.sortDescending ? 'UP' : 'DOWN'}
+                            <th className="image-width">Image</th>
+                            <th className="name">Name</th>
+                            <th className="price">
+                                <a href="#" onClick={() => this.handleOnPriceClick()}>
+                                    Price {sortIcon}
+                                </a>
                             </th>
-                            <th>Shop</th>
+                            <th className="shop">Shop</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                    {products.map((product, index) => {
-                        return <TableRow product={product} key={index}/>
-                    })}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                        {products.map((product, index) => {
+                            return <TableRow product={product} key={index}/>
+                        })}
+                        </tbody>
+                    </table>
+                </div>
+            </Card>
         );
     }
 }

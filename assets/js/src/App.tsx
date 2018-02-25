@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import Search from "./services/Search";
 import Table from "./components/table/Table";
 import ProductSorter from "./services/ProductSorter";
+import Alert from "./components/Alert";
 
 export interface Product {
     name: string;
@@ -21,6 +22,7 @@ export interface States {
     products: Product[];
     isLoading: boolean;
     sortDescending: boolean;
+    errorText: string;
 }
 
 export default class App extends React.Component<{}, States> {
@@ -31,6 +33,7 @@ export default class App extends React.Component<{}, States> {
             products: [],
             isLoading: true,
             sortDescending: false,
+            errorText: '',
         };
     }
 
@@ -43,7 +46,7 @@ export default class App extends React.Component<{}, States> {
                 });
             })
             .catch((error) => {
-                //TODO: handle error
+                //TODO: handle error. Add error text? Use axios for that?
             });
     }
 
@@ -57,13 +60,25 @@ export default class App extends React.Component<{}, States> {
     public render() {
         return (
             <div>
-                <SearchBar onPress={(keyword) => this.handleOnSearchPress(keyword)}/>
+                <div className="container-full">
+                    <div className="row justify-content-md-center">
+                        <div className="col-5">
+                            <SearchBar onPress={(keyword) => this.handleOnSearchPress(keyword)}/>
 
-                <Table
-                    products={this.state.products}
-                    sortDescending={this.state.sortDescending}
-                    onPricePress={(sort) => this.handleOnPricePress(sort)}
-                />
+                            {this.state.errorText &&
+                                <Alert text={this.state.errorText}/>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div className="container">
+                    <Table
+                        products={this.state.products}
+                        sortDescending={this.state.sortDescending}
+                        onPricePress={(sort) => this.handleOnPricePress(sort)}
+                    />
+                </div>
             </div>
         );
     }
