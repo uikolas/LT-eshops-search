@@ -1,8 +1,10 @@
 import * as React from "react";
 import Card from "./Card";
+import Button from "./Button";
 
 export interface Props {
     onPress(value: string): void;
+    disabled?: boolean;
 }
 
 export interface States {
@@ -32,7 +34,7 @@ export default class SearchBar extends React.Component<Props, States> {
         return (
             <Card>
                 <form id="search">
-                    <div className="form-row">
+                    <div className="row">
                         <div className="col-1">
                             <div className="text-secondary icon">
                                 <i className="fas fa-search"></i>
@@ -49,9 +51,11 @@ export default class SearchBar extends React.Component<Props, States> {
                         </div>
 
                         <div className="col-2">
-                            <button type="button" className="btn btn-secondary btn-lg" onClick={() => this.handleOnPress()}>
-                                Search
-                            </button>
+                            <Button
+                                title="Search"
+                                disabled={this.props.disabled}
+                                onPress={() => this.handleOnPress()}
+                            />
                         </div>
                     </div>
                 </form>

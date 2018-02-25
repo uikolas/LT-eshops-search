@@ -4,6 +4,7 @@ import Search from "./services/Search";
 import Table from "./components/table/Table";
 import ProductSorter from "./services/ProductSorter";
 import Alert from "./components/Alert";
+import Loading from "./components/Loading";
 
 export interface Product {
     name: string;
@@ -31,17 +32,22 @@ export default class App extends React.Component<{}, States> {
 
         this.state = {
             products: [],
-            isLoading: true,
+            isLoading: false,
             sortDescending: false,
             errorText: '',
         };
     }
 
     private handleOnSearchPress(keyword: string) {
+        this.setState({
+            isLoading: true
+        });
+
         Search
             .search(keyword)
             .then((response: Response) => {
                 this.setState({
+                    isLoading: false,
                     products: response.data
                 });
             })
@@ -62,8 +68,15 @@ export default class App extends React.Component<{}, States> {
             <div>
                 <div className="container-full">
                     <div className="row justify-content-md-center">
-                        <div className="col-5">
-                            <SearchBar onPress={(keyword) => this.handleOnSearchPress(keyword)}/>
+                        <div className="col-sm-6">
+                            <SearchBar
+                                onPress={(keyword) => this.handleOnSearchPress(keyword)}
+                                disabled={this.state.isLoading}
+                            />
+
+                            {this.state.isLoading &&
+                                <Loading/>
+                            }
 
                             {this.state.errorText &&
                                 <Alert text={this.state.errorText}/>
@@ -72,7 +85,7 @@ export default class App extends React.Component<{}, States> {
                     </div>
                 </div>
 
-                <div className="container">
+                <div className="container mt-2">
                     <Table
                         products={this.state.products}
                         sortDescending={this.state.sortDescending}

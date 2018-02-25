@@ -5,7 +5,9 @@ class Search {
     public search(keyword: string) {
         //ApiClient.get('url')
         return new Promise((resolve, reject) => {
-            resolve(ApiClient.get('url'));
+            setTimeout(() => {
+                resolve(ApiClient.get('url'));
+            }, 1000)
         });
     }
 }
