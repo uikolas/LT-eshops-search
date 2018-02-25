@@ -7,6 +7,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class KilobyteParser implements ParserInterface
 {
+    const URL = 'https://www.kilobaitas.lt';
+
     /**
      * @param string $content
      * @return Product[]
@@ -21,15 +23,7 @@ class KilobyteParser implements ParserInterface
 
         if ($products->count()) {
             $data = $products->each(function (Crawler $node) {
-                $image = trim($node->filter('.itemBoxImage .ItemLink img')->attr('src'));
-
-                $name = trim($node->filter('.ItemLink a')->text());
-
-                $link = trim($node->filter('.ItemLink a')->attr('href'));
-
-                $price = trim($node->filter('.itemBoxPrice div')->eq(1)->text());
-
-                return new Product($name, $image, $price, $link, 'Kilobaitas');
+                return $this->parseNode($node);
             });
         }
 
@@ -42,6 +36,23 @@ class KilobyteParser implements ParserInterface
      */
     public function getUrl($keyword)
     {
-        return 'https://www.kilobaitas.lt/Ieskoti/CatalogStore.aspx?criteria=' . $keyword;
+        return self::URL . '/Ieskoti/CatalogStore.aspx?criteria=' . $keyword;
+    }
+
+    /**
+     * @param Crawler $node
+     * @return Product
+     */
+    private function parseNode(Crawler $node)
+    {
+        $image = trim($node->filter('.itemBoxImage .ItemLink img')->attr('src'));
+
+        $name = trim($node->filter('.ItemLink a')->text());
+
+        $link = self::URL . trim($node->filter('.ItemLink a')->attr('href'));
+
+        $price = str_replace(',', '.', trim($node->filter('.itemBoxPrice div')->eq(1)->text()));
+
+        return new Product($name, $image, $price, $link, 'Kilobaitas');
     }
 }

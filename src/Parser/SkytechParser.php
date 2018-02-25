@@ -7,6 +7,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SkytechParser implements ParserInterface
 {
+    const URL = 'http://www.skytech.lt/';
+
     /**
      * @param string $content
      * @return Product[]
@@ -21,15 +23,7 @@ class SkytechParser implements ParserInterface
 
         if ($products->count()) {
             $data = $products->each(function (Crawler $node) {
-                $image = trim($node->filter('.image-wrap img')->attr('src'));
-
-                $name = trim($node->filter('.product-name')->text());
-
-                $link = trim($node->filter('.product-name a')->attr('href'));
-
-                $price = trim($node->filter('.eprice')->text());
-
-                return new Product($name, $image, $price, $link, 'Skytech');
+                return $this->parseNode($node);
             });
         }
 
@@ -41,6 +35,38 @@ class SkytechParser implements ParserInterface
      */
     public function getUrl($keyword)
     {
-        return 'http://www.skytech.lt/search.php?sand=0&pav=2&sort=5a&grp=0&page=1&pagesize=100&page=1&pagesize=100&keywords=' . $keyword . '&x=0&y=0&search_in_description=0&';
+        return self::URL . 'search.php?sand=0&pav=2&sort=5a&grp=0&page=1&pagesize=100&page=1&pagesize=100&keywords=' . $keyword . '&x=0&y=0&search_in_description=0&';
+    }
+
+    /**
+     * @param Crawler $node
+     * @return Product
+     */
+    private function parseNode(Crawler $node)
+    {
+        $image = self::URL . trim($node->filter('.image-wrap img')->attr('src'));
+
+        $name = trim($node->filter('.product-name')->text());
+
+        $link = self::URL . trim($node->filter('.product-name a')->attr('href'));
+
+        $price = $this->extractPrice($node);
+
+        return new Product($name, $image, $price, $link, 'Skytech');
+    }
+
+    /**
+     * @param Crawler $node
+     * @return string
+     */
+    private function extractPrice(Crawler $node)
+    {
+        $price = trim($node->filter('.eprice')->text());
+
+        $priceWithoutCurrency = mb_substr($price, 0, -1);
+
+        $currency = mb_substr($price, -1);
+
+        return "{$priceWithoutCurrency} {$currency}";
     }
 }
