@@ -12,7 +12,7 @@ export default class TableRow extends React.Component<Props, {}> {
         return (
             <tr>
                 <td>
-                    <img src="http://www.skytech.lt/images/small/41/1541341.jpg" alt="Image" />
+                    <img src={product.image} alt="Image" />
                 </td>
                 <td><a href={product.url} target="_blank">{product.name}</a></td>
                 <td><strong>{product.price}</strong></td>

@@ -7,8 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
+    /**
+     * @return Response
+     */
     public function index()
     {
-        return new Response('Hello');
+        return $this->render('home/index.html.twig');
     }
 }
