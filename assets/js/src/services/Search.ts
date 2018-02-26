@@ -1,14 +1,10 @@
 import {Product} from "../App";
 import ApiClient from "./ApiClient";
+import api from "../api";
 
 class Search {
     public search(keyword: string) {
-        //ApiClient.get('url')
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(ApiClient.get('url'));
-            }, 1000)
-        });
+        return ApiClient.get(api.search(keyword));
     }
 }
 

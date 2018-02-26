@@ -52,7 +52,10 @@ export default class App extends React.Component<{}, States> {
                 });
             })
             .catch((error) => {
-                //TODO: handle error. Add error text? Use axios for that?
+                this.setState({
+                    isLoading: false,
+                    errorText: error.response ? error.response.data : error.message,
+                })
             });
     }
 

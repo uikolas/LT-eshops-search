@@ -14,6 +14,13 @@
     outline: 0;
 }
 
+#search input:focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    outline: 0;
+}
+
 #search .row {
     margin-left: 0;
     margin-right: 0;

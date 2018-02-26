@@ -26,14 +26,20 @@ export default class SearchBar extends React.Component<Props, States> {
         });
     }
 
+    private handleFormSubmit(event) {
+        event.preventDefault();
+    }
+
     public handleOnPress() {
         this.props.onPress(this.state.value);
     }
 
     public render() {
+        const disabled = this.props.disabled || (this.state.value ? false : true);
+
         return (
             <Card>
-                <form id="search">
+                <form id="search" onSubmit={(e) => this.handleFormSubmit(e)}>
                     <div className="row">
                         <div className="col-1">
                             <div className="text-secondary icon">
@@ -53,7 +59,7 @@ export default class SearchBar extends React.Component<Props, States> {
                         <div className="col-2">
                             <Button
                                 title="Search"
-                                disabled={this.props.disabled}
+                                disabled={disabled}
                                 onPress={() => this.handleOnPress()}
                             />
                         </div>
