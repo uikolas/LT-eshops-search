@@ -38,8 +38,27 @@ class KilobyteParser extends AbstractDomCrawlerParser
 
         $link = self::URL . trim($node->filter('.ItemLink a')->attr('href'));
 
-        $price = str_replace(',', '.', trim($node->filter('.itemBoxPrice div')->eq(1)->text()));
+        $price = $this->extractPrice($node->filter('.itemBoxPrice div')->eq(1));
 
         return new Product($name, $image, $price, $link, 'Kilobaitas');
+    }
+
+    /**
+     * @param Crawler $node
+     * @return string
+     */
+    private function extractPrice(Crawler $node)
+    {
+        $dateNode = $node->filter('.DeliveryDate');
+
+        if ($dateNode->count()) {
+            $date  = $dateNode->text();
+            $line  = trim($node->text());
+            $price = trim(str_replace($date, '', $line));
+        } else {
+            $price = trim($node->text());
+        }
+
+        return str_replace(',', '.', $price);
     }
 }

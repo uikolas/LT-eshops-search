@@ -2342,6 +2342,7 @@ function OnToCartOrder( id, quantity )
                                             <div class="itemBoxPrice">
                                                 <div class="priceWas"></div>
 												<div>
+												<span class="DeliveryDate">2018.02.27</span>
 												2,44&nbsp;<span class="itemPriceTop">€</span>
                                                	</div>
 
