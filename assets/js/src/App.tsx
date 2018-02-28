@@ -1,7 +1,7 @@
 import * as React from "react";
 import SearchBar from "./components/SearchBar";
 import Search from "./services/Search";
-import Table from "./components/table/Table";
+import Table from "./components/Table";
 import ProductSorter from "./services/ProductSorter";
 import Alert from "./components/Alert";
 import Loading from "./components/Loading";
@@ -40,7 +40,8 @@ export default class App extends React.Component<{}, States> {
 
     private handleOnSearchPress(keyword: string) {
         this.setState({
-            isLoading: true
+            isLoading: true,
+            errorText: '',
         });
 
         Search
@@ -48,7 +49,8 @@ export default class App extends React.Component<{}, States> {
             .then((response: Response) => {
                 this.setState({
                     isLoading: false,
-                    products: response.data
+                    products: response.data,
+                    errorText: response.total === 0 ? 'No results.' : '',
                 });
             })
             .catch((error) => {

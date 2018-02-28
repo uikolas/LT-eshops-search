@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Product} from "../../App";
+import {Product} from "../App";
 
 export interface Props {
     product: Product;

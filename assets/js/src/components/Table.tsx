@@ -1,7 +1,7 @@
 import * as React from "react";
-import {Product} from "../../App";
+import {Product} from "../App";
 import TableRow from "./TableRow";
-import Card from "../Card";
+import Card from "./Card";
 
 export interface Props {
     products: Product[];

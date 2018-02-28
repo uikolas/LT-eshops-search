@@ -51,6 +51,10 @@
     width: 10%;
 }
 
+.loader-container {
+    height: 80px;
+}
+
 .loader,
 .loader:before,
 .loader:after {
@@ -110,3 +114,9 @@
         height: 5em;
     }
 }
+
+.form-control::-webkit-input-placeholder { color: #D1D1D1; }  /* WebKit, Blink, Edge */
+.form-control:-moz-placeholder { color: #D1D1D1; }  /* Mozilla Firefox 4 to 18 */
+.form-control::-moz-placeholder { color: #D1D1D1; }  /* Mozilla Firefox 19+ */
+.form-control:-ms-input-placeholder { color: #D1D1D1; }  /* Internet Explorer 10-11 */
+.form-control::-ms-input-placeholder { color: #D1D1D1; }  /* Microsoft Edge */
