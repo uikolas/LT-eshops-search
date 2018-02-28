@@ -1,5 +1,7 @@
 # LT-eshops-search
 
+![Image](public/images/eshop-search.png)
+
 Simple web crawler. Pass keyword, and crawler will attempt search in registered stores, and returns products. Found products are returned in JSON format.
 Example response [can be found here](json_example.json)
 
