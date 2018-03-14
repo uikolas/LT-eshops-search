@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Parser\ParserInterface;
+use App\SearchHandler\SearchHandlerInterface;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -58,6 +59,6 @@ class Kernel extends BaseKernel
 
     protected function build(ContainerBuilder $container)
     {
-        $container->registerForAutoconfiguration(ParserInterface::class)->addTag('app.parser');
+        $container->registerForAutoconfiguration(SearchHandlerInterface::class)->addTag('app.search_handler');
     }
 }

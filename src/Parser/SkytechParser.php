@@ -2,22 +2,12 @@
 
 namespace App\Parser;
 
-use App\Search\Product;
+use App\Product;
+use App\SearchHandler\SkytechSearchHandler;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SkytechParser extends AbstractDomCrawlerParser
 {
-    const URL = 'http://www.skytech.lt/';
-
-    /**
-     * @param string $keyword
-     * @return string
-     */
-    public function getUrl($keyword)
-    {
-        return self::URL . 'search.php?sand=0&pav=2&sort=5a&grp=0&page=1&pagesize=100&page=1&pagesize=100&keywords=' . $keyword . '&x=0&y=0&search_in_description=0&';
-    }
-
     /**
      * @return string
      */
@@ -32,11 +22,11 @@ class SkytechParser extends AbstractDomCrawlerParser
      */
     protected function parseNode(Crawler $node)
     {
-        $image = self::URL . trim($node->filter('.image-wrap img')->attr('src'));
+        $image = SkytechSearchHandler::URL . trim($node->filter('.image-wrap img')->attr('src'));
 
         $name = trim($node->filter('.product-name')->text());
 
-        $link = self::URL . trim($node->filter('.product-name a')->attr('href'));
+        $link = SkytechSearchHandler::URL . trim($node->filter('.product-name a')->attr('href'));
 
         $price = $this->extractPrice($node);
 

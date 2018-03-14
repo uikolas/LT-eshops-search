@@ -2,14 +2,14 @@
 
 namespace App\Search;
 
-class SearchHandlerValidator
+class SearcherValidator
 {
     const MINIMUM_LENGTH = 3;
 
     /**
      * @param string $keyword
      */
-    public function validate($keyword)
+    public function validate(string $keyword)
     {
         if (!$keyword) {
             throw new \LogicException('Keyword must be provided');

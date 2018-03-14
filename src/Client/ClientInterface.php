@@ -10,9 +10,4 @@ interface ClientInterface
      * @param callable|null $error
      */
     public function get($url, callable $success, callable $error = null);
-
-    /**
-     * @void
-     */
-    public function run();
 }

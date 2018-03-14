@@ -2,7 +2,7 @@
 
 namespace App\Parser;
 
-use App\Search\Product;
+use App\Product;
 use Symfony\Component\DomCrawler\Crawler;
 
 abstract class AbstractDomCrawlerParser implements ParserInterface

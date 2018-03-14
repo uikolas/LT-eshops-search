@@ -2,7 +2,7 @@
 
 namespace App\Parser;
 
-use App\Search\Product;
+use App\Product;
 
 interface ParserInterface
 {
@@ -12,9 +12,4 @@ interface ParserInterface
      */
     public function parse($content);
 
-    /**
-     * @param string $keyword
-     * @return string
-     */
-    public function getUrl($keyword);
 }
