@@ -25,9 +25,10 @@ class ReactClient implements ClientInterface
      * @param string $url
      * @param callable $success
      * @param callable|null $error
+     * @param array $headers
      */
-    public function get($url, callable $success, callable $error = null)
+    public function get(string $url, callable $success, callable $error = null, array $headers = [])
     {
-        $this->browser->get($url)->then($success, $error);
+        $this->browser->get($url, $headers)->then($success, $error);
     }
 }

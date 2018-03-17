@@ -38,6 +38,9 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
                 $parsed = $this->parser->parse((string) $response->getBody());
 
                 $searchResult->appendProducts($parsed);
+            },
+            function (\Exception $exception) {
+                //TODO: handle exception
             }
         );
     }

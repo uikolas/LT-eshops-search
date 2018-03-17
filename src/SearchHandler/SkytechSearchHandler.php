@@ -3,10 +3,7 @@
 namespace App\SearchHandler;
 
 use App\Client\ClientInterface;
-use App\Parser\ParserInterface;
 use App\Parser\SkytechParser;
-use App\Search\SearchResult;
-use Psr\Http\Message\ResponseInterface;
 
 class SkytechSearchHandler extends AbstractSearchHandler
 {

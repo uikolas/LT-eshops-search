@@ -5,10 +5,8 @@ namespace App\SearchHandler;
 
 use App\Client\ClientInterface;
 use App\Parser\OneAParser;
-use App\Search\SearchResult;
-use Psr\Http\Message\ResponseInterface;
 
-class OneASearchHandler implements SearchHandlerInterface
+class OneASearchHandler extends AbstractSearchHandler
 {
     const URL = 'https://www.1a.lt';
 
@@ -26,24 +24,9 @@ class OneASearchHandler implements SearchHandlerInterface
     {
         $this->client = $client;
         $this->parser = $parser;
-    }
-    /**
-     * @param string $keyword
-     * @param SearchResult $searchResult
-     * @return void
-     */
-    public function search(string $keyword, SearchResult $searchResult)
-    {
-        $this->client->get(
-            $this->getUrl($keyword),
-            function (ResponseInterface $response) use ($searchResult) {
-                $parsed = $this->parser->parse((string) $response->getBody());
 
-                $searchResult->appendProducts($parsed);
-            }
-        );
+        parent::__construct($client, $parser);
     }
-
     /**
      * @param string $keyword
      * @return string
