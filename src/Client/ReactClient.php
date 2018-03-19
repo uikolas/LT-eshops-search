@@ -13,7 +13,6 @@ class ReactClient implements ClientInterface
     private $browser;
 
     /**
-     * @param LoopInterface $loop
      * @param Browser $browser
      */
     public function __construct(Browser $browser)
@@ -30,5 +29,17 @@ class ReactClient implements ClientInterface
     public function get(string $url, callable $success, callable $error = null, array $headers = [])
     {
         $this->browser->get($url, $headers)->then($success, $error);
+    }
+
+    /**
+     * @param string $url
+     * @param callable $success
+     * @param callable|null $error
+     * @param array $headers
+     * @return void
+     */
+    public function post(string $url, callable $success, callable $error = null, array $headers = [])
+    {
+        $this->browser->post($url, $headers)->then($success, $error);
     }
 }
