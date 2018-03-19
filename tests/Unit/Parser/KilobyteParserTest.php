@@ -3,7 +3,7 @@
 namespace App\Tests\Unit\Parser;
 
 use App\Parser\KilobyteParser;
-use App\Search\Product;
+use App\Product;
 use App\Tests\Unit\UnitTestCase;
 use PHPUnit\Framework\TestCase;
 
