@@ -2,20 +2,21 @@
 
 namespace App\SearchHandler;
 
-use App\Search\SearchResult;
+use App\Client\ClientInterface;
+use App\Parser\KilobyteParser;
 
-class KilobyteSearchHandler implements SearchHandlerInterface
+class KilobyteSearchHandler extends AbstractSearchHandler
 {
     const URL = 'https://www.kilobaitas.lt';
 
     /**
-     * @param string $keyword
-     * @param SearchResult $searchResult
-     * @return void
+     * KilobyteSearchHandler constructor.
+     * @param ClientInterface $client
+     * @param KilobyteParser $parser
      */
-    public function search(string $keyword, SearchResult $searchResult)
+    public function __construct(ClientInterface $client, KilobyteParser $parser)
     {
-        // TODO: Implement search() method. Use post with headers?
+        parent::__construct($client, $parser);
     }
 
     /**

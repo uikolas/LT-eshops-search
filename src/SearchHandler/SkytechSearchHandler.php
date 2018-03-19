@@ -19,6 +19,10 @@ class SkytechSearchHandler extends AbstractSearchHandler
      */
     private $parser;
 
+    /**
+     * @param ClientInterface $client
+     * @param SkytechParser $parser
+     */
     public function __construct(ClientInterface $client, SkytechParser $parser)
     {
         $this->client = $client;

@@ -14,7 +14,7 @@ class SearchResult implements \Countable, \JsonSerializable
     /**
      * @param Product[] $products
      */
-    public function appendProducts(array $products)
+    public function addProducts(array $products)
     {
         $this->products = array_merge($products, $this->products);
     }
@@ -25,14 +25,6 @@ class SearchResult implements \Countable, \JsonSerializable
     public function getProducts()
     {
         return $this->products;
-    }
-
-    /**
-     * @param Product $product
-     */
-    public function addProduct(Product $product)
-    {
-        $this->products[] = $product;
     }
 
     /**

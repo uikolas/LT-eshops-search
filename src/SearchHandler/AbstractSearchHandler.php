@@ -19,6 +19,10 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      */
     private $parser;
 
+    /**
+     * @param ClientInterface $client
+     * @param ParserInterface $parser
+     */
     public function __construct(ClientInterface $client, ParserInterface $parser)
     {
         $this->client = $client;
@@ -37,7 +41,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
             function (ResponseInterface $response) use ($searchResult) {
                 $parsed = $this->parser->parse((string) $response->getBody());
 
-                $searchResult->appendProducts($parsed);
+                $searchResult->addProducts($parsed);
             },
             function (\Exception $exception) {
                 //TODO: handle exception

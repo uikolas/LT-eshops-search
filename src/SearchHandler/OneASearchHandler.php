@@ -20,6 +20,10 @@ class OneASearchHandler extends AbstractSearchHandler
      */
     private $parser;
 
+    /**
+     * @param ClientInterface $client
+     * @param OneAParser $parser
+     */
     public function __construct(ClientInterface $client, OneAParser $parser)
     {
         $this->client = $client;
