@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Search\SearchHandler;
+use App\Search\Searcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,16 +10,13 @@ use Symfony\Component\HttpFoundation\Response;
 class SearchController
 {
     /**
-     * @var SearchHandler
+     * @var Searcher
      */
-    private $searchHandler;
+    private $searcher;
 
-    /**
-     * @param SearchHandler $searchHandler
-     */
-    public function __construct(SearchHandler $searchHandler)
+    public function __construct(Searcher $searcher)
     {
-        $this->searchHandler = $searchHandler;
+        $this->searcher = $searcher;
     }
 
     /**
@@ -31,12 +28,9 @@ class SearchController
         try {
             $keyword = $request->query->get('keyword');
 
-            $results = $this->searchHandler->search($keyword);
+            $searchResult = $this->searcher->search($keyword);
 
-            $response = new JsonResponse([
-                'data'  => $results,
-                'total' => count($results)
-            ]);
+            $response = new JsonResponse($searchResult);
             $response->setEncodingOptions(JSON_PRETTY_PRINT);
 
             return $response;

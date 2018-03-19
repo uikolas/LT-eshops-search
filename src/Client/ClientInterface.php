@@ -8,11 +8,17 @@ interface ClientInterface
      * @param string $url
      * @param callable $success
      * @param callable|null $error
+     * @param array $headers
+     * @return void
      */
-    public function get($url, callable $success, callable $error = null);
+    public function get(string $url, callable $success, callable $error = null, array $headers = []);
 
     /**
-     * @void
+     * @param string $url
+     * @param callable $success
+     * @param callable|null $error
+     * @param array $headers
+     * @return void
      */
-    public function run();
+    public function post(string $url, callable $success, callable $error = null, array $headers = []);
 }

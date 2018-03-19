@@ -8,22 +8,15 @@ use React\EventLoop\LoopInterface;
 class ReactClient implements ClientInterface
 {
     /**
-     * @var LoopInterface
-     */
-    private $loop;
-
-    /**
      * @var Browser
      */
     private $browser;
 
     /**
-     * @param LoopInterface $loop
      * @param Browser $browser
      */
-    public function __construct(LoopInterface $loop, Browser $browser)
+    public function __construct(Browser $browser)
     {
-        $this->loop    = $loop;
         $this->browser = $browser;
     }
 
@@ -31,17 +24,22 @@ class ReactClient implements ClientInterface
      * @param string $url
      * @param callable $success
      * @param callable|null $error
+     * @param array $headers
      */
-    public function get($url, callable $success, callable $error = null)
+    public function get(string $url, callable $success, callable $error = null, array $headers = [])
     {
-        $this->browser->get($url)->then($success, $error);
+        $this->browser->get($url, $headers)->then($success, $error);
     }
 
     /**
-     * @void
+     * @param string $url
+     * @param callable $success
+     * @param callable|null $error
+     * @param array $headers
+     * @return void
      */
-    public function run()
+    public function post(string $url, callable $success, callable $error = null, array $headers = [])
     {
-        $this->loop->run();
+        $this->browser->post($url, $headers)->then($success, $error);
     }
 }

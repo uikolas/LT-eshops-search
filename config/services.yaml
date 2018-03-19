@@ -31,7 +31,7 @@ services:
 
     Clue\React\Buzz\Browser: ~
 
-    App\Search\SearchHandler:
-        arguments: [!tagged app.parser]
+    App\Search\Searcher:
+        arguments: [!tagged app.search_handler]
 
     App\Client\ClientInterface: '@App\Client\ReactClient'

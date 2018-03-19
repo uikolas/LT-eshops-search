@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Search;
+namespace App;
 
 class Product implements \JsonSerializable
 {
@@ -36,7 +36,7 @@ class Product implements \JsonSerializable
      * @param string $url
      * @param string $shop
      */
-    public function __construct($name, $image, $price, $url, $shop)
+    public function __construct(string $name, string $image, string $price, string $url, string $shop)
     {
         $this->name  = $name;
         $this->image = $image;
@@ -46,11 +46,7 @@ class Product implements \JsonSerializable
     }
 
     /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
+     * @return array
      */
     public function jsonSerialize()
     {

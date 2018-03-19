@@ -2,22 +2,12 @@
 
 namespace App\Parser;
 
-use App\Search\Product;
+use App\Product;
+use App\SearchHandler\KilobyteSearchHandler;
 use Symfony\Component\DomCrawler\Crawler;
 
 class KilobyteParser extends AbstractDomCrawlerParser
 {
-    const URL = 'https://www.kilobaitas.lt';
-
-    /**
-     * @param string $keyword
-     * @return string
-     */
-    public function getUrl($keyword)
-    {
-        return self::URL . '/Ieskoti/CatalogStore.aspx?criteria=' . $keyword;
-    }
-
     /**
      * @return string
      */
@@ -36,7 +26,7 @@ class KilobyteParser extends AbstractDomCrawlerParser
 
         $name = trim($node->filter('.ItemLink a')->text());
 
-        $link = self::URL . trim($node->filter('.ItemLink a')->attr('href'));
+        $link = KilobyteSearchHandler::URL . trim($node->filter('.ItemLink a')->attr('href'));
 
         $price = $this->extractPrice($node->filter('.itemBoxPrice div')->eq(1));
 
