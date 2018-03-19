@@ -1,9 +1,11 @@
 # LT-eshops-search
 
-![Image](public/images/eshop-search.png)
+![Image](public/images/example.png)
 
 Simple web crawler. Pass keyword, and crawler will attempt search in registered stores, and returns products. Found products are returned in JSON format.
 Example response [can be found here](json_example.json)
+
+If you want just want API (without twig and front end.) [go here](https://github.com/uikolas/LT-eshops-search/tree/api)
 
 Built on **Symfony 4** with:
 * [clue/buzz-react](https://github.com/clue/php-buzz-react)

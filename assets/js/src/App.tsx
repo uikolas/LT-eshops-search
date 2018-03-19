@@ -21,6 +21,7 @@ export interface Response {
 
 export interface States {
     products: Product[];
+    total: number;
     isLoading: boolean;
     sortDescending: boolean;
     errorText: string;
@@ -32,6 +33,7 @@ export default class App extends React.Component<{}, States> {
 
         this.state = {
             products: [],
+            total: 0,
             isLoading: false,
             sortDescending: false,
             errorText: '',
@@ -50,6 +52,7 @@ export default class App extends React.Component<{}, States> {
                 this.setState({
                     isLoading: false,
                     products: response.data,
+                    total: response.total,
                     errorText: response.total === 0 ? 'No results.' : '',
                 });
             })
@@ -91,6 +94,7 @@ export default class App extends React.Component<{}, States> {
                 </div>
 
                 <div className="container mt-2">
+                    <h2>Total found: {this.state.total}</h2>
                     <Table
                         products={this.state.products}
                         sortDescending={this.state.sortDescending}
