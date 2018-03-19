@@ -3,7 +3,7 @@
 namespace App\Tests\Unit\Parser;
 
 use App\Parser\SkytechParser;
-use App\Search\Product;
+use App\Product;
 use App\Tests\Unit\UnitTestCase;
 
 class SkytechParserTest extends UnitTestCase

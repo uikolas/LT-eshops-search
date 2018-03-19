@@ -40,6 +40,7 @@ class SkytechParser extends AbstractDomCrawlerParser
     private function extractPrice(Crawler $node)
     {
         $price = trim($node->filter('.eprice')->text());
+        $price = str_replace(' ', '', $price);
 
         $priceWithoutCurrency = mb_substr($price, 0, -1);
 
